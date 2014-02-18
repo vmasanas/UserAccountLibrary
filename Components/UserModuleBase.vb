@@ -191,6 +191,15 @@ Namespace Connect.Libraries.UserManagement
             End Get
         End Property
 
+        Protected ReadOnly Property ExternalInterface() As String
+            Get
+                If Not Settings("ExternalInterface") Is Nothing Then
+                    Return CType(Settings("ExternalInterface"), String)
+                End If
+                Return Null.NullString
+            End Get
+        End Property
+
         Protected ReadOnly Property AllowedRoles() As String()
             Get
                 If Not Settings("AllowedRoles") Is Nothing Then
