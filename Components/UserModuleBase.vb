@@ -627,6 +627,19 @@ Namespace Connect.Libraries.UserManagement
             Return Nothing
         End Function
 
+        Public Function FindMembershipControlsRecursive(ByVal objRoot As Control, ByVal id As String) As Control
+            If Not objRoot.ID Is Nothing AndAlso objRoot.ID.StartsWith(id) Then
+                Return objRoot
+            End If
+            For Each c As Control In objRoot.Controls
+                Dim t As Control = FindMembershipControlsRecursive(c, id)
+                If Not t Is Nothing Then
+                    Return t
+                End If
+            Next
+            Return Nothing
+        End Function
+
 #End Region
 
 #Region "Shared DataAccess Helpers"
@@ -1006,6 +1019,15 @@ Namespace Connect.Libraries.UserManagement
 
                         Select Case strObject.ToLower
 
+                            Case "static"
+
+                                strLabelText = strKey
+                                Try
+                                    strHelpText = strToken.Split(Char.Parse(":"))(3)
+                                Catch ex As Exception
+                                    strHelpText = strKey
+                                End Try
+
                             Case "login"
 
                                 strLabelText = Localization.GetString("Login_" & strKey, LocalResourceFile)
@@ -1161,7 +1183,7 @@ Namespace Connect.Libraries.UserManagement
 
                     End If
 
-                    If strToken.StartsWith("RESX:") Then 'simple localized resource rendeing
+                    If strToken.StartsWith("RESX:") Then 'simple localized resource rendering
 
                         Dim strObject As String = strToken.Split(Char.Parse(":"))(1)
                         Dim strKey As String = strToken.Split(Char.Parse(":"))(2)
@@ -1402,6 +1424,21 @@ Namespace Connect.Libraries.UserManagement
 
                                 End Select
 
+                                plhControls.Controls.Add(ctl)
+
+                            Case "rolemembership"
+
+                                'strKey is now supposed to be an existing role
+                                Dim ctl As New CheckBox
+                                ctl.ID = plhControls.ID & "_" & Constants.ControlId_RoleMembership & strKey.Replace(" ", "")
+                                Try
+                                    Dim strPending As String = strToken.Split(Char.Parse(":"))(3)
+                                    If strPending.ToLower = "pending" Then
+                                        ctl.ID += "_Pending"
+                                    End If
+                                Catch
+                                End Try
+                                ctl.Checked = False
                                 plhControls.Controls.Add(ctl)
 
                         End Select

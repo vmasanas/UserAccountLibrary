@@ -49,6 +49,8 @@ Namespace Connect.Libraries.UserManagement
         Public Const ControlId_ProfileProperty As String = "ctl_Profile_"
         Public Const ControlId_Visiblity As String = "ctl_Visibility_"
 
+        Public Const ControlId_RoleMembership As String = "ctl_RoleMembership_"
+
         Public Const ControlId_DropdownSuffix As String = "Select_"
         Public Const ControlId_TextSuffix As String = "Text_"
 
