@@ -352,6 +352,18 @@ Namespace Connect.Libraries.UserManagement
             End Get
         End Property
 
+        Protected ReadOnly Property AddToRoleStatus() As String
+            Get
+                If Not Settings("AddToRoleStatus") Is Nothing Then
+                    Try
+                        Return CType(Settings("AddToRoleStatus"), String)
+                    Catch ex As Exception
+                    End Try
+                End If
+                Return "pending"
+            End Get
+        End Property
+
         Protected ReadOnly Property FilterByRole() As String
             Get
                 If Not Settings("FilterByRole") Is Nothing Then
@@ -1480,6 +1492,112 @@ Namespace Connect.Libraries.UserManagement
                             pnlRequired.Visible = True
                             plhControls.Controls.Add(pnlRequired)
 
+                        End If
+
+                    ElseIf strToken.StartsWith("IFSOCIALMEMBERSHIPPENDING:") Then
+
+                        Dim strRole As String = strToken.Split(Char.Parse(":"))(1)
+                        Dim blnIsInRole As Boolean = False
+
+                        If Not objUser Is Nothing Then
+                            For Each objRole As UserRoleInfo In objUser.Social.Roles
+                                If objRole.RoleName = strRole AndAlso objRole.Status = DotNetNuke.Security.Roles.RoleStatus.Pending Then
+                                    blnIsInRole = True
+                                End If
+                            Next
+                        End If
+
+                        If blnIsInRole = False Then
+
+                            While (iPtr < templateArray.Length - 1)
+                                If (templateArray(iPtr + 1).ToUpper = "/IFSOCIALMEMBERSHIPPENDING:" & strRole.ToUpper) Then
+                                    Exit While
+                                End If
+                                iPtr = iPtr + 1
+                            End While
+                        End If
+
+                    ElseIf strToken.StartsWith("IFSOCIALMEMBERSHIPAPPROVED:") Then
+
+                        Dim strRole As String = strToken.Split(Char.Parse(":"))(1)
+                        Dim blnIsInRole As Boolean = False
+
+                        If Not objUser Is Nothing Then
+                            For Each objRole As UserRoleInfo In objUser.Social.Roles
+                                If objRole.RoleName = strRole AndAlso objRole.Status = DotNetNuke.Security.Roles.RoleStatus.Approved Then
+                                    blnIsInRole = True
+                                End If
+                            Next
+                        End If
+
+                        If blnIsInRole = False Then
+
+                            While (iPtr < templateArray.Length - 1)
+                                If (templateArray(iPtr + 1).ToUpper = "/IFSOCIALMEMBERSHIPAPPROVED:" & strRole.ToUpper) Then
+                                    Exit While
+                                End If
+                                iPtr = iPtr + 1
+                            End While
+                        End If
+
+                    ElseIf strToken.StartsWith("IFSOCIALMEMBERSHIPNONE:") Then
+
+                        Dim strRole As String = strToken.Split(Char.Parse(":"))(1)
+                        Dim blnIsInRole As Boolean = False
+
+                        If Not objUser Is Nothing Then
+                            For Each objRole As UserRoleInfo In objUser.Social.Roles
+                                If objRole.RoleName = strRole Then
+                                    blnIsInRole = True
+                                End If
+                            Next
+                        End If
+
+                        If blnIsInRole = True Then
+
+                            While (iPtr < templateArray.Length - 1)
+                                If (templateArray(iPtr + 1).ToUpper = "/IFSOCIALMEMBERSHIPNONE:" & strRole.ToUpper) Then
+                                    Exit While
+                                End If
+                                iPtr = iPtr + 1
+                            End While
+                        End If
+
+                    ElseIf strToken.StartsWith("IFISINROLE:") Then
+
+                        Dim strRole As String = strToken.Split(Char.Parse(":"))(1)
+                        Dim blnIsInRole As Boolean = False
+
+                        If Not objUser Is Nothing Then
+                            blnIsInRole= objUser.IsInRole(strRole) 
+                        End If
+
+                        If blnIsInRole = False Then
+
+                            While (iPtr < templateArray.Length - 1)
+                                If (templateArray(iPtr + 1).ToUpper = "/IFISINROLE:" & strRole.ToUpper) Then
+                                    Exit While
+                                End If
+                                iPtr = iPtr + 1
+                            End While
+                        End If
+
+                    ElseIf strToken.StartsWith("IFNOTISINROLE:") Then
+
+                        Dim strRole As String = strToken.Split(Char.Parse(":"))(1)
+                        Dim blnIsInRole As Boolean = False
+
+                        If Not objUser Is Nothing Then
+                            blnIsInRole = objUser.IsInRole(strRole)
+                        End If
+
+                        If blnIsInRole = True Then
+                            While (iPtr < templateArray.Length - 1)
+                                If (templateArray(iPtr + 1).ToUpper = "/IFNOTISINROLE:" & strRole.ToUpper) Then
+                                    Exit While
+                                End If
+                                iPtr = iPtr + 1
+                            End While
                         End If
 
 

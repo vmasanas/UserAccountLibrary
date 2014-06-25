@@ -5,3 +5,9 @@ D:\Development\Websites\dev_DNN7\website\DesktopModules\Connect\AccountLibrary\o
 D:\Development\Websites\dev_DNN7\website\DesktopModules\Connect\AccountLibrary\obj\Release\Connect.Libraries.UserManagement.xml
 D:\Development\Websites\dev_DNN7\website\DesktopModules\Connect\AccountLibrary\obj\Release\Connect.Libraries.UserManagement.pdb
 D:\Development\Websites\dev_DNN7\website\DesktopModules\Connect\AccountLibrary\obj\Release\Connect_Users.vbprojResolveAssemblyReference.cache
+D:\Development\Websites\dev_DNNConnect\wwwRoot\bin\Connect.Libraries.UserManagement.dll
+D:\Development\Websites\dev_DNNConnect\wwwRoot\bin\Connect.Libraries.UserManagement.pdb
+D:\Development\Websites\dev_DNNConnect\wwwRoot\bin\Connect.Libraries.UserManagement.xml
+D:\Development\Websites\dev_DNNConnect\wwwRoot\DesktopModules\Connect\AccountLibrary\obj\Release\Connect.Libraries.UserManagement.dll
+D:\Development\Websites\dev_DNNConnect\wwwRoot\DesktopModules\Connect\AccountLibrary\obj\Release\Connect.Libraries.UserManagement.xml
+D:\Development\Websites\dev_DNNConnect\wwwRoot\DesktopModules\Connect\AccountLibrary\obj\Release\Connect.Libraries.UserManagement.pdb

@@ -85,6 +85,7 @@ Namespace Connect.Libraries.UserManagement
         Public Const TemplateName_EmailAccountData As String = "Email.Account.Data" & TemplateName_Extension
         Public Const TemplateName_EmailAddedToRole As String = "Email.AddedToRole" & TemplateName_Extension
         Public Const TemplateName_EmailRemovedFromRole As String = "Email.RemovedFromRole" & TemplateName_Extension
+        Public Const TemplateName_EmailRoleStatusChanged As String = "Email.RoleStatusChanged" & TemplateName_Extension
         Public Const TemplateName_EmailPasswordReset As String = "Email.Password.Reset" & TemplateName_Extension
 
         Public Const TemplateName_ProfileForm As String = "Form.Profile" & TemplateName_Extension
