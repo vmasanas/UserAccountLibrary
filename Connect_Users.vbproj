@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.vb" />
     <Compile Include="Components\Constants.vb" />
+    <Compile Include="Components\ReCaptcha.vb" />
     <Compile Include="Components\TemplateController.vb" />
     <Compile Include="Components\UserModuleBase.vb">
       <SubType>ASPXCodeBehind</SubType>

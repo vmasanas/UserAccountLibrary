@@ -52,6 +52,33 @@ Namespace Connect.Libraries.UserManagement
 
 #Region "Registration Control Settings"
 
+        Protected ReadOnly Property CompareFirstNameLastName() As Boolean
+            Get
+                If Not Settings("CompareFirstNameLastName") Is Nothing Then
+                    Return CType(Settings("CompareFirstNameLastName"), Boolean)
+                End If
+                Return True
+            End Get
+        End Property
+
+        Protected ReadOnly Property ValidateEmailThroughRegex() As Boolean
+            Get
+                If Not Settings("ValidateEmailThroughRegex") Is Nothing Then
+                    Return CType(Settings("ValidateEmailThroughRegex"), Boolean)
+                End If
+                Return True
+            End Get
+        End Property
+
+        Protected ReadOnly Property EmailRegex() As String
+            Get
+                If Not Settings("EmailRegex") Is Nothing Then
+                    Return CType(Settings("EmailRegex"), String)
+                End If
+                Return Null.NullString
+            End Get
+        End Property
+
         Protected ReadOnly Property AdditionalControls() As String()
             Get
                 Dim strControls As String() = New String() {}
@@ -160,8 +187,6 @@ Namespace Connect.Libraries.UserManagement
             End Get
         End Property
 
-
-
         Protected ReadOnly Property LoginWithEmail() As Boolean
             Get
                 If Not Settings("LoginWithEmail") Is Nothing Then
@@ -170,8 +195,6 @@ Namespace Connect.Libraries.UserManagement
                 Return True
             End Get
         End Property
-
-
 
         Protected ReadOnly Property PreSelectRole() As Integer
             Get
@@ -364,6 +387,18 @@ Namespace Connect.Libraries.UserManagement
             End Get
         End Property
 
+        Protected ReadOnly Property ReCaptchaKey() As String
+            Get
+                If Not Settings("ReCaptchaKey") Is Nothing Then
+                    Try
+                        Return CType(Settings("ReCaptchaKey"), String)
+                    Catch ex As Exception
+                    End Try
+                End If
+                Return ""
+            End Get
+        End Property
+
         Protected ReadOnly Property FilterByRole() As String
             Get
                 If Not Settings("FilterByRole") Is Nothing Then
@@ -547,9 +582,19 @@ Namespace Connect.Libraries.UserManagement
 
         'todo: implement portalsettings validation
         Protected Function IsValidEmail(ByVal strEmail As String) As Boolean
+
+            If ValidateEmailThroughRegex = False Then
+                Return True
+            End If
+
+            If Not String.IsNullOrEmpty(EmailRegex) Then
+                Return Regex.IsMatch(strEmail, EmailRegex)
+            End If
+
             Dim settings As Hashtable = UserController.GetUserSettings(PortalId)
             Dim regexString As String = settings("Security_EmailValidation")
             Return Regex.IsMatch(strEmail, regexString)
+
         End Function
 
         Protected Function IsValidProperty(ByVal objUser As UserInfo, ByVal ProfProperty As ProfilePropertyDefinition, ByRef objControl As Control) As Boolean
@@ -1454,6 +1499,31 @@ Namespace Connect.Libraries.UserManagement
                                 plhControls.Controls.Add(ctl)
 
                         End Select
+
+                    ElseIf strToken.StartsWith("RECAPTCHA:") Then
+
+                        Dim strPublicKey As String = strToken.Split(Char.Parse(":"))(1)
+                        Dim strTheme As String = "red"
+                        Try
+                            strTheme = strToken.Split(Char.Parse(":"))(2)
+                        Catch
+                        End Try
+
+                        
+
+                        Dim strScript As New LiteralControl
+                        strScript.Text = String.Format("<script type=""text/javascript"" src=""http://www.google.com/recaptcha/api/challenge?k={0}""></script>", strPublicKey)
+
+                        Dim pnlCaptcha As New Panel
+                        pnlCaptcha.ID = plhControls.ID & "_ReCaptchaPanel"
+
+                        If strTheme.ToLower <> "red" Then
+                            Dim strOptions As String = "<script type=""text/javascript"">var RecaptchaOptions = { theme : '" & strTheme & "'};</script>"
+                            pnlCaptcha.Controls.Add(New LiteralControl(strOptions))
+                        End If
+
+                        pnlCaptcha.Controls.Add(strScript)
+                        plhControls.Controls.Add(pnlCaptcha)
 
 
                     ElseIf strToken.StartsWith("REQUIRED:") Then

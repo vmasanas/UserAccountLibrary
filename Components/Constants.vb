@@ -78,7 +78,7 @@ Namespace Connect.Libraries.UserManagement
         Public Const TemplateName_Form As String = "Form" & TemplateName_Extension
         Public Const TemplateName_EmailToUser As String = "Email.User" & TemplateName_Extension
         Public Const TemplateName_EmailToUser_Verified As String = "Email.User.Verified" & TemplateName_Extension
-        Public Const TemplateName_EmailToUser_Private As String = "Email.User" & TemplateName_Extension
+        Public Const TemplateName_EmailToUser_Private As String = "Email.User.Private" & TemplateName_Extension
         Public Const TemplateName_EmailToAdmin As String = "Email.Admin" & TemplateName_Extension
 
         Public Const TemplateName_EmailAccountCreated As String = "Email.Account.Created" & TemplateName_Extension
