@@ -580,7 +580,6 @@ Namespace Connect.Libraries.UserManagement
 
         End Function
 
-        'todo: implement portalsettings validation
         Protected Function IsValidEmail(ByVal strEmail As String) As Boolean
 
             If ValidateEmailThroughRegex = False Then
